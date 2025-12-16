@@ -46,6 +46,9 @@ from labelme.widgets import download_ai_model
 
 from . import utils
 
+import json
+from pathlib import Path
+
 # FIXME
 # - [medium] Set max zoom value to something big enough for FitWidth/Window
 
@@ -1714,6 +1717,23 @@ class MainWindow(QtWidgets.QMainWindow):
                 flag = item.checkState() == Qt.Unchecked
             item.setCheckState(Qt.Checked if flag else Qt.Unchecked)
 
+    def _export_current_file(self):
+        """Export current file info for external middleware."""
+
+
+        if not self.filename:
+            return
+
+        state = {
+            "current_image": str(Path(self.filename).resolve())
+        }
+
+        try:
+            with open("labelme_current.json", "w", encoding="utf-8") as f:
+                json.dump(state, f, indent=2)
+        except Exception as e:
+            logger.warning("Failed to export current file: %s", e)
+
     def _load_file(self, filename=None):
         """Load the specified file, or the last opened file if None."""
         # changing fileListWidget loads file
@@ -1793,6 +1813,9 @@ class MainWindow(QtWidgets.QMainWindow):
             return False
         self.image = image
         self.filename = filename
+        # ===== middleware hook =====
+        self._export_current_file()
+        # ============================================
         self.canvas.loadPixmap(QtGui.QPixmap.fromImage(image))
         flags = {k: False for k in self._config["flags"] or []}
         if self.labelFile:

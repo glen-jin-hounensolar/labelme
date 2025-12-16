@@ -1,0 +1,31 @@
+{
+  "system": {
+    "AI_CONFIG": {
+      "URL": [
+        "http://gpu.ai.hounen.us:7000/detect",
+        "http://cpu.ai.hounen.us:7000/detect"
+      ],
+      "MODEL": [
+        "AR",
+        "BFCS",
+        "EL",
+        "ELOK"
+      ]
+    },
+    "DEFAULT": {
+      "infer_size": {
+        "width": 2048,
+        "height": 1049
+      }
+    }
+  },
+  "runtime": {
+    "url": "http://gpu.ai.hounen.us:7000/detect",
+    "model": "BFCS",
+    "threshold": [
+      0.01,
+      0.01,
+      0.01
+    ]
+  }
+}

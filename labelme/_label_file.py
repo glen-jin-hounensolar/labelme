@@ -33,7 +33,8 @@ class ShapeDict(TypedDict):
     flags: dict[str, bool]
     description: str
     group_id: Optional[int]
-    mask: Optional[NDArray[np.bool]]
+    # mask: Optional[NDArray[np.bool]]
+    mask: Optional[NDArray[np.bool_]]
     other_data: dict
 
 
